@@ -33,13 +33,16 @@ restore_backuped_config(){
             cp -a $filename $eachfile
             rm    /etc/localtime
             echo -e "\e[32mNow configure the timezone to $(cat $eachfile)...\e[0m"
-            dpkg-reconfigure -f noninteractive tzdata;;
+            dpkg-reconfigure -f noninteractive tzdata
+            ;;
         "interfaces")				#P2:network IP
             cp -a $filename $eachfile
-            systemctl restart networking;;
+            systemctl restart networking
+            ;;
         "sshd_config")				#P3:ssh server 
             cp -a $filename $eachfile
-            systemctl restart sshd;;
+            systemctl restart sshd
+            ;;
         ".vimrc")                   		#P4:.vimrc
             if [ ! -e $eachfile ]; then
                 echo -e "\e[32m.vimrc not exist, try to install a good one\e[0m"
@@ -53,14 +56,17 @@ restore_backuped_config(){
                 apt install samba -y
             fi
             cp -a $filename $eachfile
-            systemctl restart smbd;;
+            systemctl restart smbd
+            ;;
         ".bashrc")                 		#P6:Home Debian bashrc
             cp -a $filename $eachfile
             rm /root/.bashrc
-            ln $eachfile /root/$filename;;
+            ln $eachfile /root/$filename
+            ;;
         *)
             echo -e "\e[32mCommon Restore Process...\e[0m"
-            cp -a $filename $eachfile;;
+            cp -a $filename $eachfile
+            ;;
         esac
     done
 }
