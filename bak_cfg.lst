@@ -1,0 +1,14 @@
+/etc/apt/sources.list
+/etc/hostname
+/etc/hosts
+/etc/network/interfaces
+/etc/profile
+/etc/rc.local
+/etc/samba/smb.conf
+/etc/ssh/sshd_config
+/etc/sudoers.d/admin
+/etc/timezone
+/home/debian/.bashrc
+/root/.vimrc
+/usr/local/bin/bak_cfg.sh
+/usr/local/bin/grow_partition.sh
