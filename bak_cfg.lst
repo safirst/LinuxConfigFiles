@@ -10,5 +10,4 @@
 /etc/timezone
 /home/debian/.bashrc
 /root/.vimrc
-/usr/local/bin/bak_cfg.sh
 /usr/local/bin/grow_partition.sh

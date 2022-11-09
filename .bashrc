@@ -94,6 +94,7 @@ alias la='ls -A'
 alias df='df -HT'
 alias du='du -h'
 alias du1='du -h -d1'
+
 alias dpkg-sort="dpkg-query -Wf '\${Installed-Size}\t\${Package}\n' | sort -n"
 alias od='od -Ax -tx1 -v'
 alias less='less -N'

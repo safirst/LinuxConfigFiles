@@ -2,6 +2,7 @@
 export DIR_CFG="/root/LinuxConfigFiles"
 export LST_CFG="bak_cfg.lst"
 FILE=$DIR_CFG/$LST_CFG 
+USERNAME="debian"
 
 config_shell(){
 	if realpath "/bin/sh"|grep -q dash;then
@@ -13,6 +14,7 @@ config_shell(){
 
 make_common_config(){
 	config_shell
+    ln -sf $(pwd)/bak_cfg.sh /usr/local/bin/bak_cfg.sh
 }
 
 
@@ -20,7 +22,7 @@ install_common_package(){
 	[ -e sources.list ] && (cp sources.list /etc/apt/)
 
 	echo -e "\e[32mInstalling several common useful APT package...\e[0m"
-	apt update && apt install -y neofetch tree smbclient console-setup
+	apt update && apt install -y neofetch tree samba smbclient console-setup
 }
 
 restore_backuped_config(){
@@ -48,20 +50,21 @@ restore_backuped_config(){
                 echo -e "\e[32m.vimrc not exist, try to install a good one\e[0m"
                 git clone https://git.oschina.net/eccozhou/vimrc.git ~/.vim_runtime
                 sh ~/.vim_runtime/install_awesome_vimrc.sh
-                cp -a .vimrc $eachfile
             fi
+            chown $USERNAME:$USERNAME $filename
+            chmod 666 $filename
+            cp -a $filename $eachfile
             ;;
         "smb.conf")                 		#P5:smb.conf
-            if [ ! -e $eachfile ]; then
-                apt install samba -y
-            fi
             cp -a $filename $eachfile
             systemctl restart smbd
             ;;
         ".bashrc")                 		#P6:Home Debian bashrc
+            chown $USERNAME:$USERNAME $filename
+            chmod 666 $filename
             cp -a $filename $eachfile
-            rm /root/.bashrc
-            ln $eachfile /root/$filename
+            rm -f /root/.bashrc
+            ln /home/$USERNAME/.bashrc /root/.bashrc
             ;;
         *)
             echo -e "\e[32mCommon Restore Process...\e[0m"
