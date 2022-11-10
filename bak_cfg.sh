@@ -66,6 +66,10 @@ restore_backuped_config(){
             rm -f /root/.bashrc
             ln /home/$USERNAME/.bashrc /root/.bashrc
             ;;
+        "id_ed25519")                   #P7:ssh private key for github user:safirst
+            mkdir -p /root/.ssh
+            cp -a $filename $eachfile
+            ;;
         *)
             echo -e "\e[32mCommon Restore Process...\e[0m"
             cp -a $filename $eachfile
@@ -109,7 +113,6 @@ if [ $# -ne 1 ]; then                		#Only one Arg acceptted
     or sudo $0 backup 
     or sudo $0 restore\n"
 elif [ $# -eq 1 ]; then 			#Main process
-    cd $DIR_CFG && echo "Changed into Working Dir: $(pwd)"
 
     #Backup
     if [ $1 = 'backup' ]; then        		
@@ -129,6 +132,7 @@ elif [ $# -eq 1 ]; then 			#Main process
     #Restore
     elif [ $1 = 'restore' ]; then 		
         echo -e "\e[32m\n###restore branch###\n\e[0m"
+        cd $DIR_CFG && echo "Changed into Working Dir: $(pwd)"
 
 	make_common_config
 	install_common_package
@@ -152,9 +156,9 @@ elif [ $# -eq 1 ]; then 			#Main process
         echo -e "\e[32m\n###Add config file branch###\n\e[0m"
         file=$(realpath -e $1)
         if [ $? -eq 0 ]; then
-	    echo $file >> $FILE
-	    echo -e "\e[32mNew Config File:[$file] added to $FILE\e[0m" 
-	    sort -u $FILE -o $FILE
+            echo $file >> $FILE
+            echo -e "\e[32mNew Config File:[$file] added to $FILE\e[0m" 
+            sort -u $FILE -o $FILE
         fi
     fi
 fi
