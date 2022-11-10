@@ -10,5 +10,5 @@
 /etc/timezone
 /home/debian/.bashrc
 /root/.ssh/id_ed25519
-/root/.vimrc
+/home/debian/.vimrc
 /usr/local/bin/grow_partition.sh

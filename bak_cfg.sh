@@ -48,12 +48,20 @@ restore_backuped_config(){
         ".vimrc")                   		#P4:.vimrc
             if [ ! -e $eachfile ]; then
                 echo -e "\e[32m.vimrc not exist, try to install a good one\e[0m"
-                git clone https://git.oschina.net/eccozhou/vimrc.git ~/.vim_runtime
-                sh ~/.vim_runtime/install_awesome_vimrc.sh
+                su - $USERNAME << EOF
+                git clone https://git.oschina.net/eccozhou/vimrc.git ~/.vim_runtime;
+                sh ~/.vim_runtime/install_awesome_vimrc.sh;
+                exit;
+EOF
+                chown $USERNAME:$USERNAME $filename
+                chmod 666 $filename
+                cp -a $filename $eachfile
+
+                git clone https://git.oschina.net/eccozhou/vimrc.git ~/.vim_runtime;
+                sh ~/.vim_runtime/install_awesome_vimrc.sh;
+                rm -f /root/.vimrc
+                ln /home/$USERNAME/.vimrc /root/.vimrc
             fi
-            chown $USERNAME:$USERNAME $filename
-            chmod 666 $filename
-            cp -a $filename $eachfile
             ;;
         "smb.conf")                 		#P5:smb.conf
             cp -a $filename $eachfile
@@ -134,8 +142,8 @@ elif [ $# -eq 1 ]; then 			#Main process
         echo -e "\e[32m\n###restore branch###\n\e[0m"
         cd $DIR_CFG && echo "Changed into Working Dir: $(pwd)"
 
-	make_common_config
-	install_common_package
+	#make_common_config
+	#install_common_package
 	restore_backuped_config
 
 	if read -t 15 -p "Do you want to reboot? If no choice made,system will reboot after 15s.. (Yes/No)" answer; then
