@@ -74,10 +74,6 @@ EOF
             rm -f /root/.bashrc
             ln /home/$USERNAME/.bashrc /root/.bashrc
             ;;
-        "id_ed25519")                   #P7:ssh private key for github user:safirst
-            mkdir -p /root/.ssh
-            cp -a $filename $eachfile
-            ;;
         *)
             echo -e "\e[32mCommon Restore Process...\e[0m"
             cp -a $filename $eachfile
