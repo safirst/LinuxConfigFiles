@@ -1,8 +1,8 @@
 #!/bin/bash
 export DIR_CFG="/root/LinuxConfigFiles"
 export LST_CFG="bak_cfg.lst"
-FILE=$DIR_CFG/$LST_CFG 
-USERNAME="debian"
+export FILE=$DIR_CFG/$LST_CFG 
+export USERNAME="debian"
 
 config_shell(){
 	if realpath "/bin/sh"|grep -q dash;then
@@ -12,9 +12,17 @@ config_shell(){
 	fi
 }
 
+config_file_permission(){
+    echo -e "\e[32mModify several user hidden file permission...\e[0m"
+    #grep $USERNAME $FILE | xargs -n1 basename |xargs -p -i sh -c 'chown root:root {}; chmod 777 {}'
+    grep $USERNAME $FILE | xargs -n1 basename |xargs -i sh -c 'chown ${USERNAME}:${USERNAME} {}; chmod 666 {}'
+}
+
 make_common_config(){
 	config_shell
-    ln -sf $(pwd)/bak_cfg.sh /usr/local/bin/bak_cfg.sh
+    config_file_permission
+
+    ln -f $(pwd)/bak_cfg.sh /usr/local/bin/bak_cfg.sh
 }
 
 
@@ -82,6 +90,22 @@ EOF
     done
 }
 
+reboot(){
+	if read -t 15 -p "Do you want to reboot? If no choice made,system will reboot after 15s.. (Yes/No)" answer; then
+		case $answer in
+			Y|y)
+				echo "Reboot now..."
+				reboot;;
+			N|n)
+				echo "Keep using...";;
+		esac
+	else
+		echo "Reboot now..."
+		reboot
+	fi
+}
+
+
 backup_to_other_fs(){
     cd $DIR_CFG/.. && echo "Changed into Working Dir: $(pwd)"
 
@@ -104,13 +128,12 @@ backup_to_other_fs(){
 
 
 #Main Script Start
-[ -e $DIR_CFG ] || mkdir -p $DIR_CFG
-
-
 if ! id | grep -q root; then
     echo "This script must be run as root, try [sudo $0]"
     exit
 fi
+
+[ -e $DIR_CFG ] || mkdir -p $DIR_CFG
 
 if [ $# -ne 1 ]; then                		#Only one Arg acceptted
     echo -e "Usage: sudo $0 \"filename\" 
@@ -138,22 +161,10 @@ elif [ $# -eq 1 ]; then 			#Main process
         echo -e "\e[32m\n###restore branch###\n\e[0m"
         cd $DIR_CFG && echo "Changed into Working Dir: $(pwd)"
 
-	#make_common_config
-	#install_common_package
+	make_common_config
+	install_common_package
 	restore_backuped_config
-
-	if read -t 15 -p "Do you want to reboot? If no choice made,system will reboot after 15s.. (Yes/No)" answer; then
-		case $answer in
-			Y|y)
-				echo "Reboot now..."
-				reboot;;
-			N|n)
-				echo "Keep using...";;
-		esac
-	else
-		echo "Reboot now..."
-		reboot
-	fi
+    reboot
 
     #Add config file
     else					
