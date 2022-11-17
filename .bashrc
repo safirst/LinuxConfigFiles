@@ -98,8 +98,8 @@ alias du1='du -h -d1'
 alias dpkg-sort="dpkg-query -Wf '\${Installed-Size}\t\${Package}\n' | sort -n"
 alias od='od -Ax -tx1 -v'
 alias less='less -N'
-alias uart_screen='stty cols 160; stty rows 32'
 alias smem='smem -a -k -s pss -r'
+alias uart_screen='stty cols 160; stty rows 50'
 
 # Alias definitions.
 # You may want to put all your additions into a separate file like
