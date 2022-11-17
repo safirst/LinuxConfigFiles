@@ -30,7 +30,7 @@ install_common_package(){
 	[ -e sources.list ] && (cp sources.list /etc/apt/)
 
 	echo -e "\e[32mInstalling several common useful APT package...\e[0m"
-	apt update && apt install -y neofetch tree samba smbclient console-setup
+	apt update && apt install -y neofetch tree samba smbclient console-setup smem
 }
 
 restore_backuped_config(){
