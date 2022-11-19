@@ -2,6 +2,5 @@
 
 apt update >/dev/null 2>&1 &
 
-#Backup all the configuration file with noninteractive shell BUG
+#BUG# Backup all the configuration file with noninteractive shell
 #/usr/local/bin/bak_cfg.sh backup &  
-

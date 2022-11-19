@@ -124,3 +124,6 @@ fi
 
 export EDITOR=vim
 PATH=$PATH:~/bin
+
+echo 
+/usr/games/fortune | boxes -d mouse -a c
