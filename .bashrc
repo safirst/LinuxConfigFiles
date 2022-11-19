@@ -101,6 +101,7 @@ alias less='less -N'
 alias smem='smem -a -k -s pss -r'
 alias uart_screen='stty cols 160; stty rows 50'
 
+alias git_log='git log --pretty=oneline'
 # Alias definitions.
 # You may want to put all your additions into a separate file like
 # ~/.bash_aliases, instead of adding them here directly.
@@ -123,7 +124,6 @@ fi
 
 
 export EDITOR=vim
-PATH=$PATH:~/bin
+export PATH=$PATH:~/bin:/usr/games
 
-echo 
-/usr/games/fortune | boxes -d mouse -a c
+echo && (fortune | boxes -d mouse -a c | lolcat)
