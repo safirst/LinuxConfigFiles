@@ -61,14 +61,11 @@ restore_backuped_config(){
                 sh ~/.vim_runtime/install_awesome_vimrc.sh;
                 exit;
 EOF
-                chown $USERNAME:$USERNAME $filename
-                chmod 666 $filename
                 cp -a $filename $eachfile
 
                 git clone https://git.oschina.net/eccozhou/vimrc.git ~/.vim_runtime;
                 sh ~/.vim_runtime/install_awesome_vimrc.sh;
-                rm -f /root/.vimrc
-                ln /home/$USERNAME/.vimrc /root/.vimrc
+                ln -f /home/$USERNAME/.vimrc /root/.vimrc
             fi
             ;;
         "smb.conf")                 		#P5:smb.conf
@@ -76,11 +73,8 @@ EOF
             systemctl restart smbd
             ;;
         ".bashrc")                 		#P6:Home Debian bashrc
-            chown $USERNAME:$USERNAME $filename
-            chmod 666 $filename
             cp -a $filename $eachfile
-            rm -f /root/.bashrc
-            ln /home/$USERNAME/.bashrc /root/.bashrc
+            ln -f /home/$USERNAME/.bashrc /root/.bashrc
             ;;
         *)
             echo -e "\e[32mCommon Restore Process...\e[0m"
